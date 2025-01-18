@@ -91,7 +91,7 @@
       const selectedUserId = ref('')
       const assignRoleModal = ref(null)
   
-      const baseURL = 'https://v1-backend-casas-charlotte-production.up.railway.app/administracion'
+      const baseURL = 'https://v1-backend-sebastian-nadal-production.up.railway.app/administracion'
       // const baseURL = 'https://v1backendcasasamilia-production.up.railway.app/administracion'
       const empresaId = 1 // Assuming we're working with empresa ID 1
   

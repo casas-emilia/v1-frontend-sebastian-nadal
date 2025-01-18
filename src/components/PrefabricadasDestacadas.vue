@@ -9,7 +9,7 @@ const loading = ref(true);
 const error = ref(null);
 const progressValue = ref(0);
 
-const baseURL = "https://v1-backend-casas-charlotte-production.up.railway.app";
+const baseURL = "https://v1-backend-sebastian-nadal-production.up.railway.app";
 // const baseURL = "https://v1backendcasasamilia-production.up.railway.app";
 const router = useRouter();
 

@@ -9,7 +9,7 @@ const intervalId = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
-const baseURL = "https://v1-backend-casas-charlotte-production.up.railway.app";
+const baseURL = "https://v1-backend-sebastian-nadal-production.up.railway.app";
 // const baseURL = "https://v1backendcasasamilia-production.up.railway.app";
 const router = useRouter();
 

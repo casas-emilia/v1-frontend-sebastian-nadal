@@ -169,7 +169,7 @@ const userCredentials = reactive({
 
 const isLoading = ref(false)
 const empresaId = ref(1) // Assuming empresaId is 1
-const baseUrl = `https://v1-backend-casas-charlotte-production.up.railway.app/administracion/empresas/`
+const baseUrl = `https://v1-backend-sebastian-nadal-production.up.railway.app/administracion/empresas/`
 // const baseUrl = `https://v1backendcasasamilia-production.up.railway.app/administracion/empresas/`
 const userId = ref(null)
 

@@ -96,7 +96,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const empresaId = 1; // Assuming we're working with empresa ID 1
-const baseURL = `https://v1-backend-casas-charlotte-production.up.railway.app/administracion/empresas/${empresaId}/portadas/`;
+const baseURL = `https://v1-backend-sebastian-nadal-production.up.railway.app/administracion/empresas/${empresaId}/portadas/`;
 
 const portadas = ref([]);
 const formData = ref({

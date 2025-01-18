@@ -172,7 +172,7 @@
   const itemsPerPage = ref(12);
   
   const empresaId = 1; // Replace with actual empresa ID
-  const baseUrl = `https://v1-backend-casas-charlotte-production.up.railway.app/administracion/empresas/${empresaId}/noticiasEmpresa`;
+  const baseUrl = `https://v1-backend-sebastian-nadal-production.up.railway.app/administracion/empresas/${empresaId}/noticiasEmpresa`;
   //const baseUrl = `https://v1backendcasasamilia-production.up.railway.app/administracion/empresas/${empresaId}/noticiasEmpresa`;
   
   onMounted(async () => {
