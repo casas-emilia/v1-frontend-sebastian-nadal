@@ -52,7 +52,7 @@ onMounted(() => {
         </div>
         <div class="col-md-6 info-container">
           <div class="info-card">
-            <h3 class="mb-4" style="color: #ef6e01;">
+            <h3 class="mb-4" style="color: #f7b500;">
               Visítanos en nuestro sitio de exhibición
             </h3>
             <p v-if="empresas && empresas.ubicacion_empresa" class="info-item">
@@ -87,7 +87,7 @@ onMounted(() => {
 <style>
 :root {
   --primary-color: #23ccc8;
-  --secondary-color: #097b7a;
+  --secondary-color: #20212b;
   --accent-color: #ef6e01;
   --text-color: #333333;
   --light-bg: #f8f9fa;

@@ -151,17 +151,17 @@ onMounted(fetchData);
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #097b7a;
+  color: #20212b;
   margin-bottom: 1rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .highlight {
-  color: #ef6e01;
+  color: #f7b500;
 }
 
 .lead {
-  color: #097b7a;
+  color: #20212b;
 }
 
 .loading-spinner {

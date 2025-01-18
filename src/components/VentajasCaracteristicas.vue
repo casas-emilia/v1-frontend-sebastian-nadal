@@ -170,7 +170,7 @@ onMounted(() => {
 :root {
   --primary-color: #23ccc8;
   --secondary-color: #097b7a;
-  --accent-color: #ef6e01;
+  --accent-color: #f7b500;
   --text-color: #333333;
   --light-bg: #f8f9fa;
   --dark-bg: #343a40;

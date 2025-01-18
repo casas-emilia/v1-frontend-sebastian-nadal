@@ -6,7 +6,6 @@ import Redes from '@/components/Redes.vue';
 import CarruselPortada from '@/components/CarruselPortada.vue';
 import Ubicacion from '@/components/Ubicacion.vue';
 import EjecutivosVentas from '@/components/EjecutivosVentas.vue';
-import RandomPrefabricadas from '@/components/RandomPrefabricadas.vue';
 import VentajasCaracteristicas from '@/components/VentajasCaracteristicas.vue';
 import Numeros from '@/components/Numeros.vue';
 import PrefabricadasDestacadas  from '@/components/PrefabricadasDestacadas.vue';
