@@ -768,7 +768,7 @@ const goBack = () => {
 
 .banner-text {
   color: #ffffff;
-  font-size: 3.5rem;
+  font-size: 3.4rem;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -853,7 +853,7 @@ const goBack = () => {
   }
   
   .banner-text {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
   }
 }
 </style>
