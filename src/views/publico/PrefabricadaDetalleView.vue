@@ -353,7 +353,7 @@ const goBack = () => {
                 </div>
                 <div class="card-body d-flex flex-column">
                   <div class="price-container mb-4">
-                    <span class="period">Desde: </span>
+                    <span class="period text-light">Desde: </span>
                     <span class="currency">$</span>
                     <span class="price">{{ Math.floor(precio.valor_prefabricada).toLocaleString() }}</span>
                   </div>
@@ -361,8 +361,8 @@ const goBack = () => {
                   <ul v-if="precio.incluyes?.length" class="list-unstyled mb-4 flex-grow-1">
                     <li v-for="incluye in precio.incluyes" 
                         :key="incluye.id" 
-                        class="mb-3">
-                      <i class="fas fa-check me-2"></i>
+                        class="mb-3 text-light">
+                      <i class="fas fa-minus me-2 text-primary"></i>
                       {{ incluye.nombre_incluye }}
                     </li>
                   </ul>
@@ -404,13 +404,13 @@ const goBack = () => {
 
       <EjecutivosVentas />
 
-      <!-- <section class="footer-banner">
+      <section class="footer-banner">
         <div class="banner-overlay">
           <h2 class="banner-text animate__animated animate__fadeIn animate__delay-1s">
-            Casas Charlotte
+            Casas Sebastián Nadal
           </h2>
         </div>
-      </section> -->
+      </section>
 
       <Transition name="fade">
         <div v-if="lightboxOpen" 
@@ -746,7 +746,6 @@ const goBack = () => {
   background-image: url('/img/casas_charlotte_3.jpg');
   background-size: cover;
   background-position: center;
-  margin-top: 4rem;
 }
 
 .banner-overlay {
@@ -762,7 +761,7 @@ const goBack = () => {
 }
 
 .banner-text {
-  color: var(--text-color);
+  color: #ffffff;
   font-size: 3.5rem;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);

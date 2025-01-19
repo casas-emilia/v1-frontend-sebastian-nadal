@@ -49,6 +49,7 @@ export default {
         case 'instagram': return 'darkorchid';
         case 'tiktok': return '#00f2ea';
         case 'youtube': return '#FF0000';
+        case 'facebook': return '#3b5998';
         default: return '#6c757d';
       }
     };
@@ -58,6 +59,7 @@ export default {
         case 'instagram': return 'bi bi-instagram';
         case 'tiktok': return 'bi bi-tiktok';
         case 'youtube': return 'bi bi-youtube';
+        case 'facebook': return 'bi bi-facebook';
         default: return 'bi bi-share';
       }
     };
@@ -67,6 +69,7 @@ export default {
         case 'instagram': return 'Descubre nuestras fotos más inspiradoras';
         case 'tiktok': return 'Mantente al día con nuestras actualizaciones';
         case 'youtube': return 'Mira nuestros videos de proyectos y testimonios';
+        case 'facebook': return 'Descubre más de nuestro día a día y últimas novedades';
         default: return 'Síguenos en nuestras redes sociales';
       }
     };
