@@ -2,12 +2,12 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
-const navItems = [
+const navItems = ref([
     { text: 'Nosotros', route: 'nosotros', icon: 'fas fa-info-circle' },
     { text: 'Prefabricadas', route: 'prefabricadas', icon: 'fas fa-home', highlight: true },
     { text: 'Contacto', route: 'contactos', icon: 'fas fa-envelope' },
     { text: 'Portafolio', route: 'blog', icon: 'fas fa-briefcase' }
-];
+])
 
 
 const isNavbarOpen = ref(false)
@@ -24,7 +24,7 @@ const closeNavbar = () => {
 <template>
     <nav class="navbar navbar-expand-lg" style="background-color: #1e1f21;">
         <div class="container">
-            <RouterLink :to="{ name: 'home' }" class="navbar-brand fw-light fs-5 text-light"
+            <RouterLink :to="{ name: 'home' }" class="navbar-brand fw-light fs-6 text-light"
                 style="color: #0f2b5e; font-family: 'Cabin', sans-serif;">
                 <img src="/img/logo_sebastian_nadal.png" alt="home" width="73" height="70">
                 Casas Sebastián Nadal

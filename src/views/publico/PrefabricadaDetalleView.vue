@@ -4,6 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import EjecutivosVentas from "@/components/EjecutivosVentas.vue";
 
+
 const prefabricada = ref(null);
 const loading = ref(true);
 const error = ref(null);
@@ -193,7 +194,7 @@ const goBack = () => {
     </div>
     
     <div v-else-if="prefabricada" class="animate__animated animate__fadeIn">
-      <section class="hero-section py-5">
+      <section class="hero-section py-5 text-dark">
         <div class="container">
           <div class="row align-items-center">
             <div class="col-lg-6">
@@ -271,7 +272,7 @@ const goBack = () => {
           <div class="row">
             <div class="col-lg-6">
               <h2 class="mb-4 fw-bold">Descripción</h2>
-              <p class="text-muted">{{ prefabricada.descripcion }}</p>
+              <p class="text-muted descripcion">{{ prefabricada.descripcion }}</p>
             </div>
             
             <div v-if="hasPlanoImages" class="col-lg-6">
@@ -371,7 +372,7 @@ const goBack = () => {
                   <div class="accordion-item" v-if="precio.adicionales?.length">
                     <h2 class="accordion-header" :id="'heading-' + precio.id">
                       <button 
-                        class="accordion-button collapsed w-100 text-left"
+                        class="accordion-button collapsed w-100 text-left text-dark"
                         type="button" 
                         @click="toggleAccordion(precio.id)"
                         :aria-expanded="isAccordionOpen(precio.id)"
@@ -438,14 +439,14 @@ const goBack = () => {
 </template>
 
 <style scoped>
-:root {
+/* :root {
   --primary-color: #f7b500;
   --secondary-color: #1e1f21;
   --accent-color: #ff6b35;
   --text-color: #ffffff;
   --light-bg: #f8f9fa;
   --dark-bg: #2c2d30;
-}
+} */
 
 .prefabricada-details {
   font-family: 'Arial', sans-serif;
@@ -599,6 +600,11 @@ const goBack = () => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.descripcion {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .pricing-section {

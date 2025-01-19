@@ -58,19 +58,19 @@ import 'animate.css'
 const testimonials = ref([
   {
     name: 'Cliente Satisfecho',
-    avatar: '/img/logo_casas_charlotte.png',
+    avatar: '/img/logo_sebastian_nadal.png',
     rating: 5,
     comment: 'Excelente calidad en los paneles, totalmente recomendables. La diferencia es notable.',
   },
   {
     name: 'Cliente Verificado',
-    avatar: '/img/logo_casas_charlotte.png',
+    avatar: '/img/logo_sebastian_nadal.png',
     rating: 5,
     comment: 'Muchas gracias, todos nos calzó al 100% muy bueno todo, nos cuadró bien, los recomendaré al 100%.',
   },
   {
     name: 'Cliente Feliz',
-    avatar: '/img/logo_casas_charlotte.png',
+    avatar: '/img/logo_sebastian_nadal.png',
     rating: 5,
     comment: '¡Sí!, gracias todo perfecto. Las costaneras le alcanzaron bien.',
   }

@@ -9,13 +9,11 @@ const phone = ref('');
 const showCopyMessage = ref(false);
 const coverImageSrc = ref('/img/contacto.webp');
 
-// Abrir WhatsApp con un mensaje predeterminado
 const openWhatsApp = () => {
     const message = encodeURIComponent('Hola, me gustaría obtener más información.');
     window.open(`https://wa.me/${phone.value}?text=${message}`, '_blank');
 };
 
-// Copiar email al portapapeles
 const copyEmail = () => {
     navigator.clipboard.writeText(email.value).then(() => {
         showCopyMessage.value = true;
@@ -23,7 +21,6 @@ const copyEmail = () => {
     });
 };
 
-// Obtener datos de contacto
 const fetchContactData = async () => {
     try {
         const { data } = await axios.get('/empresas/1');
@@ -42,7 +39,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <!-- Portada -->
     <section class="hero-section">
         <div class="position-relative overflow-hidden">
             <img :src="coverImageSrc" class="img-fluid w-100" alt="Imagen de portada"
@@ -55,7 +51,6 @@ onMounted(() => {
         </div>
     </section>
 
-    <!-- Ubicacion -->
     <section>
         <Ubicacion></Ubicacion>
     </section>
@@ -95,7 +90,6 @@ onMounted(() => {
             </div>
         </div>
         
-        <!-- Mensaje de copiado -->
         <div v-if="showCopyMessage" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
             <div class="alert alert-success animate__animated animate__fadeInUp" role="alert">
                 E-mail copiado
@@ -105,23 +99,24 @@ onMounted(() => {
 </template>
 
 <style scoped>
-:root {
-  --primary-color: #23ccc8;
-  --secondary-color: #097b7a;
-  --accent-color: #ef6e01;
+/* :root {
+  --primary-color: #f7b500;
+  --secondary-color: #1e1f21;
+  --accent-color: #ff6b35;
   --text-color: #333333;
   --light-bg: #f8f9fa;
-  --dark-bg: #343a40;
-}
+  --dark-bg: #2c2d30;
+} */
 
 .hero-section {
     position: relative;
 }
 
 .contact-section {
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NiIgaGVpZ2h0PSIxMDAiPgo8cmVjdCB3aWR0aD0iNTYiIGhlaWdodD0iMTAwIiBmaWxsPSIjZjhmOWZhIj48L3JlY3Q+CjxwYXRoIGQ9Ik0yOCA2NkwwIDUwTDAgMTZMMjggMEw1NiAxNkw1NiA1MEwyOCA2NkwyOCAxMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2U5ZWNlZiIgc3Ryb2tlLXdpZHRoPSIyIj48L3BhdGg+CjxwYXRoIGQ9Ik0yOCAwTDI4IDM0TDAgNTBMMCA4NEwyOCAxMDBMNTYgODRMNTYgNTBMMjggMzQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2U5ZWNlZiIgc3Ryb2tlLXdpZHRoPSIyIj48L3BhdGg+Cjwvc3ZnPg==');
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NiIgaGVpZ2h0PSIxMDAiPgo8cmVjdCB3aWR0aD0iNTYiIGhlaWdodD0iMTAwIiBmaWxsPSIjMWUxZjIxIj48L3JlY3Q+CjxwYXRoIGQ9Ik0yOCA2NkwwIDUwTDAgMTZMMjggMEw1NiAxNkw1NiA1MEwyOCA2NkwyOCAxMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJjMmQzMCIgc3Ryb2tlLXdpZHRoPSIyIj48L3BhdGg+CjxwYXRoIGQ9Ik0yOCAwTDI4IDM0TDAgNTBMMCA4NEwyOCAxMDBMNTYgODRMNTYgNTBMMjggMzQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJjMmQzMCIgc3Ryb2tlLXdpZHRoPSIyIj48L3BhdGg+Cjwvc3ZnPg==');
     background-size: 56px 100px;
     animation: backgroundScroll 20s linear infinite;
+    color: var(--light-bg);
 }
 
 @keyframes backgroundScroll {
@@ -133,20 +128,20 @@ onMounted(() => {
     border-radius: 15px;
     overflow: hidden;
     transition: all 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(30, 31, 33, 0.8);
     border: none;
     backdrop-filter: blur(10px);
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(35, 204, 200, 0.2);
+    box-shadow: 0 10px 20px rgba(247, 181, 0, 0.2);
 }
 
 .contact-info div {
     font-size: 1.1rem;
     margin-bottom: 1rem;
-    color: var(--text-color);
+    color: var(--light-bg);
 }
 
 .contact-info i {
@@ -157,14 +152,14 @@ onMounted(() => {
 }
 
 .btn-success {
-    background-color: var(--secondary-color);
-    border-color: var(--secondary-color);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
     transition: all 0.3s ease;
 }
 
 .btn-success:hover {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
     transform: scale(1.05);
 }
 
@@ -175,21 +170,21 @@ onMounted(() => {
 
 .btn-outline-primary:hover {
     background-color: var(--primary-color);
-    color: #ffffff;
+    color: var(--secondary-color);
 }
 
 .section-title {
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--secondary-color);
+    color: var(--primary-color);
     margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .alert-success {
     background-color: var(--primary-color);
-    color: #ffffff;
-    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+    border-color: var(--accent-color);
 }
 
 .text-primary {

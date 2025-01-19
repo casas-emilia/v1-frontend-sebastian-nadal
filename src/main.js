@@ -1,4 +1,5 @@
 import { createApp, markRaw } from 'vue';
+import './assets/styles/global.css'; // Importa aquí los estilos globales
 import { createPinia } from 'pinia';
 import { useRouter } from 'vue-router';
 import createPersistedState from 'pinia-plugin-persistedstate';

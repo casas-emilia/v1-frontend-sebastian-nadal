@@ -7,6 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: './', // Usa rutas relativas para el build
   plugins: [
     vue(),
     vueJsx(),

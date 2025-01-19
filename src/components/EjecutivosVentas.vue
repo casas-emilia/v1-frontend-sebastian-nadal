@@ -142,14 +142,14 @@ onMounted(fetchData);
 </template>
 
 <style scoped>
-:root {
+/* :root {
   --primary-color: #f7b500;
   --secondary-color: #1e1f21;
   --accent-color: #ff6b35;
   --text-color: #333333;
   --light-bg: #f8f9fa;
   --dark-bg: #2c2d30;
-}
+} */
 
 .bg-pattern {
   background: linear-gradient(135deg, var(--secondary-color), var(--dark-bg));

@@ -44,10 +44,7 @@ onMounted(() => {
       <div v-else class="row align-items-center content-wrapper">
         <div class="col-md-6 map-container">
           <div class="ratio ratio-16x9 map-frame">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3292.403868421637!2d-71.2568022!3d-29.8916354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9691b54c4fd2da83%3A0x1888324f0c8e5d30!2sCASAS%20PREFABRICADAS%20CHARLOTTE!5e1!3m2!1ses-419!2scl!4v1736632643386!5m2!1ses-419!2scl" 
-              width="600" height="450" style="border:0;"  allowfullscreen="true"
-              loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1728.9401430209532!2d-71.27231743186711!3d-29.92534845129446!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9691cb96ec3b399b%3A0x519d646f1c0b1f28!2sF%C3%A1brica%20de%20casas%20Sebasti%C3%A1n%20Nadal!5e0!3m2!1ses-419!2scl!4v1737315182331!5m2!1ses-419!2scl" width="600" height="450" style="border:0;" allow="fullscreen" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
         <div class="col-md-6 info-container">
@@ -85,14 +82,14 @@ onMounted(() => {
 </template>
 
 <style scoped>
-:root {
+/* :root {
   --primary-color: #f7b500;
   --secondary-color: #1e1f21;
   --accent-color: #ff6b35;
   --text-color: #333333;
   --light-bg: #f8f9fa;
   --dark-bg: #2c2d30;
-}
+} */
 
 .bg-pattern {
   background: linear-gradient(135deg, var(--secondary-color), var(--dark-bg));
