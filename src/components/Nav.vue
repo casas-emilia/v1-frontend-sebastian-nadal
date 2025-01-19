@@ -2,12 +2,13 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
-const navItems = ref([
+const navItems = [
     { text: 'Nosotros', route: 'nosotros', icon: 'fas fa-info-circle' },
     { text: 'Prefabricadas', route: 'prefabricadas', icon: 'fas fa-home', highlight: true },
     { text: 'Contacto', route: 'contactos', icon: 'fas fa-envelope' },
     { text: 'Portafolio', route: 'blog', icon: 'fas fa-briefcase' }
-])
+];
+
 
 const isNavbarOpen = ref(false)
 
@@ -21,11 +22,12 @@ const closeNavbar = () => {
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg bg-white">
+    <nav class="navbar navbar-expand-lg" style="background-color: #1e1f21;">
         <div class="container">
-            <RouterLink :to="{ name: 'home' }" class="navbar-brand fw-bold fs-4"
+            <RouterLink :to="{ name: 'home' }" class="navbar-brand fw-light fs-5 text-light"
                 style="color: #0f2b5e; font-family: 'Cabin', sans-serif;">
-                <img src="/img/logo_casas_charlotte.png" alt="home" width="110" height="70">
+                <img src="/img/logo_sebastian_nadal.png" alt="home" width="73" height="70">
+                Casas Sebastián Nadal
             </RouterLink>
             <button class="navbar-toggler custom-toggler" type="button" @click="toggleNavbar"
                 aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -36,7 +38,7 @@ const closeNavbar = () => {
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li v-for="(item, index) in navItems" :key="index" class="nav-item mx-2">
                         <RouterLink :to="{ name: item.route }" 
-                            :class="['nav-link active fw-bold nav-item-hover d-flex align-items-center', 
+                            :class="['nav-link active fw-bold nav-item-hover d-flex align-items-center nav-item', 
                                      {'highlight-nav-item': item.highlight}]"
                             @click="closeNavbar">
                             <i :class="[item.icon, 'me-2']"></i>
@@ -50,43 +52,61 @@ const closeNavbar = () => {
 </template>
 
 <style scoped>
+.nav-item {
+    color: #f7b500 !important;
+}
+
 .nav-item-hover {
     transition: all 0.3s ease;
     padding: 8px 15px;
 }
 
 .nav-item-hover:hover {
-    background-color: darkorange;
-    color: #ffffff !important;
+    background-color: #f7b500;
+    color: #000000 !important;
     border-radius: 5px;
 }
 
 .highlight-nav-item {
-    /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
-    background: linear-gradient(
+  /* Gradiente con los colores definidos */
+  background: linear-gradient(
     -45deg,
-    #23ccc8, /* Color principal 1 */
-    #4de6e2, /* Color más claro */
-    #1ca39f, /* Intermedio */
-    #097b7a, /* Color principal 2 */
-    #045c5b, /* Más oscuro */
-    #11b2af  /* Saturado */
+    #f7b500, /* Amarillo dorado (Principal) */
+    #ff5a5f, /* Rojo coral (Contraste) */
+    #0a84ff, /* Azul vibrante (Complemento) */
+    #20212b  /* Gris oscuro (Profundidad) */
   );
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-    color: #ffffff !important;
-    padding: 8px 15px;
-    border-radius: 25px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transform: scale(1.05);
+  background-size: 300% 300%;
+  animation: gradient 10s ease infinite;
+
+  /* Texto */
+  color: #fefefe !important; /* Blanco para contraste */
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+
+  /* Espaciado y bordes */
+  padding: 10px 20px;
+  border-radius: 30px;
+
+  /* Sombras para dar profundidad */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 
+              0 2px 4px rgba(255, 255, 255, 0.1) inset;
+
+  /* Efecto inicial */
+  transform: scale(1);
+  transition: all 0.3s ease;
 }
 
 .highlight-nav-item:hover {
-    animation: gradient 5s ease infinite;
-    transform: scale(1.1);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
+  /* Acelera la animación en hover */
+  animation: gradient 6s ease infinite;
 
+  /* Transformaciones al interactuar */
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 
+              0 2px 6px rgba(255, 255, 255, 0.15) inset;
+}
 @keyframes gradient {
     0% {
         background-position: 0% 50%;
@@ -104,7 +124,7 @@ const closeNavbar = () => {
 }
 
 .custom-toggler.navbar-toggler {
-    border-color: #ffffff;
+    border-color: #20212b;
 }
 
 @media (max-width: 991.98px) {

@@ -51,7 +51,6 @@ const handleSwipe = (direction) => {
 const obtenerImagenesDeNoticia = async (noticiaId) => {
     try {
         const imagenesResponse = await axios.get(`/empresas/1/noticiasEmpresa/${noticiaId}/imagenesNoticiasEmpresa/`);
-        //const imagenesResponse = await axios.get(`https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/${noticiaId}/imagenesNoticiasEmpresa/`);
         const imagenes = imagenesResponse.data.imagenes_noticia || [];
         return imagenes.length > 0 ? imagenes : [{ image: '/img/placeholder.png' }];
     } catch (error) {
@@ -63,7 +62,6 @@ const obtenerImagenesDeNoticia = async (noticiaId) => {
 const getActividadDetalle = async () => {
     try {
         const noticiasResponse = await axios.get(`/empresas/1/noticiasEmpresa/${route.params.id}`);
-        //const noticiasResponse = await axios.get(`https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/${route.params.id}`);
         const noticia = noticiasResponse.data.noticia || {};
         const imagenes = await obtenerImagenesDeNoticia(noticia.id);
         actividad.value = { ...noticia, imagenes };
@@ -123,7 +121,6 @@ const goBack = () => {
 
 <template>
     <div class="detail-view">
-        <!-- Header -->
         <header class="detail-header">
             <div class="container">
                 <nav class="breadcrumb-nav">
@@ -137,13 +134,11 @@ const goBack = () => {
 
         <main class="detail-content">
             <div class="container">
-                <!-- Loading State -->
                 <div v-if="loading" class="loading-state">
                     <div class="loader"></div>
                     <p>Cargando contenido...</p>
                 </div>
 
-                <!-- Error State -->
                 <div v-else-if="error" class="error-state">
                     <div class="error-icon">⚠️</div>
                     <p>{{ error }}</p>
@@ -152,16 +147,14 @@ const goBack = () => {
                     </button>
                 </div>
 
-                <!-- Content -->
                 <article v-else-if="actividad" class="article-content">
                     <div class="article-header">
                         <h1>{{ actividad.titulo_noticia }}</h1>
-                        <time :datetime="actividad.created_at">
+                        <time :datetime="actividad.created_at" class="text-light">
                             {{ formatearFecha(actividad.created_at) }}
                         </time>
                     </div>
 
-                    <!-- Enhanced Image Carousel -->
                     <div class="carousel-wrapper">
                         <div id="carouselExample" 
                              class="carousel slide" 
@@ -183,7 +176,7 @@ const goBack = () => {
                                         </div>
                                     </div>
                                     <div class="carousel-caption">
-                                        <span class="image-counter">{{ index + 1 }} / {{ totalImages }}</span>
+                                        <span class="image-counter text-light">{{ index + 1 }} / {{ totalImages }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +189,6 @@ const goBack = () => {
                         </div>
                     </div>
 
-                    <!-- Article Content -->
                     <div class="article-body">
                         <p>{{ actividad.desarrollo_noticia }}</p>
                     </div>
@@ -209,7 +201,6 @@ const goBack = () => {
             </div>
         </main>
 
-        <!-- Enhanced Modal -->
         <div v-if="isModalVisible" 
              class="modal-overlay" 
              @click="closeModal"
@@ -218,9 +209,9 @@ const goBack = () => {
             <div class="modal-container" @click.stop>
                 <img :src="selectedImage" :alt="actividad?.titulo_noticia" />
                 <div class="modal-navigation">
-                    <button class="modal-nav-button prev" @click="navigateModal('prev')">←</button>
-                    <span class="modal-counter">{{ currentImageIndex + 1 }} / {{ totalImages }}</span>
-                    <button class="modal-nav-button next" @click="navigateModal('next')">→</button>
+                    <button class="modal-nav-button prev text-light" @click="navigateModal('prev')">←</button>
+                    <span class="modal-counter text-light">{{ currentImageIndex + 1 }} / {{ totalImages }}</span>
+                    <button class="modal-nav-button next text-light" @click="navigateModal('next')">→</button>
                 </div>
                 <button class="modal-close" @click="closeModal">×</button>
             </div>
@@ -230,16 +221,22 @@ const goBack = () => {
 </template>
 
 <style scoped>
+:root {
+    --primary-color: #f7b500;
+    --secondary-color: #1e1f21;
+    --text-color: #ffffff;
+    --background-color: #f8f9fa;
+}
+
 .detail-view {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: linear-gradient(135deg, var(--background-color) 0%, #e9ecef 100%);
     min-height: 100vh;
 }
 
-/* Header Styles */
 .detail-header {
-    background: white;
+    background: var(--secondary-color);
     padding: 1.5rem 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .breadcrumb-nav {
@@ -254,14 +251,14 @@ const goBack = () => {
     padding: 0.5rem 1rem;
     border: none;
     background: transparent;
-    color: #4a5568;
+    color: var(--primary-color);
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .back-button:hover {
-    color: #2d3748;
+    color: var(--text-color);
     transform: translateX(-4px);
 }
 
@@ -269,7 +266,6 @@ const goBack = () => {
     font-size: 1.2rem;
 }
 
-/* Content Styles */
 .detail-content {
     padding: 2rem 0;
 }
@@ -285,8 +281,8 @@ const goBack = () => {
 
 .article-header {
     padding: 2rem;
-    background: linear-gradient(135deg, #2c5282 0%, #2b6cb0 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #2b6cb0 100%);
+    color: var(--text-color);
 }
 
 .article-header h1 {
@@ -294,6 +290,7 @@ const goBack = () => {
     font-weight: 800;
     margin-bottom: 1rem;
     line-height: 1.2;
+    color: var(--primary-color);
 }
 
 .article-header time {
@@ -301,7 +298,6 @@ const goBack = () => {
     opacity: 0.9;
 }
 
-/* Carousel Styles */
 .carousel-wrapper {
     position: relative;
     background: #000;
@@ -338,7 +334,7 @@ const goBack = () => {
 
 .zoom-icon {
     font-size: 2rem;
-    color: white;
+    color: var(--text-color);
 }
 
 .carousel-control {
@@ -359,7 +355,7 @@ const goBack = () => {
 }
 
 .carousel-control:hover {
-    background: white;
+    background: var(--primary-color);
     transform: translateY(-50%) scale(1.1);
 }
 
@@ -368,7 +364,7 @@ const goBack = () => {
 
 .carousel-arrow {
     font-size: 1.5rem;
-    color: #2d3748;
+    color: var(--secondary-color);
 }
 
 .carousel-caption {
@@ -379,7 +375,7 @@ const goBack = () => {
     background: rgba(0, 0, 0, 0.7);
     padding: 8px 16px;
     border-radius: 20px;
-    color: white;
+    color: var(--text-color);
     font-weight: 500;
     z-index: 5;
 }
@@ -389,15 +385,13 @@ const goBack = () => {
     letter-spacing: 1px;
 }
 
-/* Article Body */
 .article-body {
     padding: 2rem;
     font-size: 1.1rem;
     line-height: 1.8;
-    color: #2d3748;
+    color: var(--secondary-color);
 }
 
-/* Loading State */
 .loading-state {
     text-align: center;
     padding: 4rem 0;
@@ -407,13 +401,12 @@ const goBack = () => {
     width: 50px;
     height: 50px;
     border: 4px solid #e2e8f0;
-    border-top-color: #4299e1;
+    border-top-color: var(--primary-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin: 0 auto 1rem;
 }
 
-/* Error State */
 .error-state {
     text-align: center;
     padding: 4rem 0;
@@ -422,11 +415,12 @@ const goBack = () => {
 .error-icon {
     font-size: 3rem;
     margin-bottom: 1rem;
+    color: var(--primary-color);
 }
 
 .retry-button {
-    background: #4299e1;
-    color: white;
+    background: var(--primary-color);
+    color: var(--secondary-color);
     border: none;
     padding: 0.75rem 2rem;
     border-radius: 8px;
@@ -436,10 +430,10 @@ const goBack = () => {
 }
 
 .retry-button:hover {
-    background: #2b6cb0;
+    background: var(--secondary-color);
+    color: var(--primary-color);
 }
 
-/* Modal Styles */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -482,7 +476,7 @@ const goBack = () => {
 .modal-nav-button {
     background: transparent;
     border: none;
-    color: white;
+    color: var(--text-color);
     font-size: 1.2rem;
     cursor: pointer;
     padding: 2px 8px;
@@ -494,23 +488,25 @@ const goBack = () => {
 }
 
 .modal-counter {
-    color: white;
+    color: var(--text-color);
     font-size: 0.85rem;
     font-weight: 500;
     letter-spacing: 0.5px;
     min-width: 45px;
     text-align: center;
 }
+
 .modal-close {
     position: absolute;
     top: -40px;
     right: -40px;
     width: 40px;
     height: 40px;
-    background: white;
+    background: var(--primary-color);
     border: none;
     border-radius: 50%;
     font-size: 1.5rem;
+    color: var(--secondary-color);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -520,12 +516,11 @@ const goBack = () => {
 }
 
 .modal-close:hover {
-    background: #e53e3e;
-    color: white;
+    background: var(--secondary-color);
+    color: var(--primary-color);
     transform: rotate(90deg);
 }
 
-/* Animations */
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
@@ -538,12 +533,10 @@ const goBack = () => {
     transition: opacity 0.3s ease;
 }
 
-/* Touch feedback */
 .carousel-wrapper {
     touch-action: pan-y pinch-zoom;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .article-header h1 {
         font-size: 2rem;

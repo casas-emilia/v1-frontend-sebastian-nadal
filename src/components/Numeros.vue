@@ -84,7 +84,7 @@ onMounted(() => {
                       class="number">{{ stat.displayNumber }}</span>
                 <span v-if="stat.suffix">{{ stat.suffix }}</span>
               </h3>
-              <p class="stat-text">{{ stat.text }}</p>
+              <p class="stat-text text-light">{{ stat.text }}</p>
             </div>
           </div>
         </div>
@@ -97,19 +97,27 @@ onMounted(() => {
 </template>
 
 <style scoped>
+:root {
+  --primary-color: #f7b500;
+  --secondary-color: #1e1f21;
+  --accent-color: #ff6b35;
+  --text-color: #ffffff;
+  --light-bg: #f8f9fa;
+  --dark-bg: #2c2d30;
+}
+
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  /* color: #0056b3; */
-  color: lightblue;
+  color: var(--primary-color);
   text-align: center;
   margin-bottom: 2rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .statistics-section {
-  background: linear-gradient(210deg, #1a1a1a 0%, #2c3e50 100%);
-  color: white;
+  background: linear-gradient(210deg, var(--secondary-color) 0%, var(--dark-bg) 100%);
+  color: var(--text-color);
   padding: 4rem 0;
 }
 
@@ -139,10 +147,10 @@ onMounted(() => {
 .stat-icon {
   font-size: 3rem;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #4299e1, #667eea);
-  -webkit-background-clip: text; /* Para navegadores basados en WebKit */
-  background-clip: text; /* Propiedad estándar */
-  -webkit-text-fill-color: transparent; /* Hace que solo se muestre el gradiente */
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   display: inline-block;
 }
 
@@ -150,10 +158,10 @@ onMounted(() => {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #fff, #e2e8f0);
-  -webkit-background-clip: text; /* Para navegadores basados en WebKit */
-  background-clip: text; /* Propiedad estándar */
-  -webkit-text-fill-color: transparent; /* Hace que solo se muestre el gradiente */
+  background: linear-gradient(135deg, var(--primary-color), var(--text-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .number {
@@ -163,19 +171,18 @@ onMounted(() => {
 
 .stat-text {
   font-size: 1.1rem;
-  color: #e2e8f0;
+  color: var(--text-color);
   margin: 0;
   line-height: 1.6;
 }
 
 .heart-icon {
   font-size: 2.5rem;
-  color: red !important; /* Forzar el color */
-  background: none !important; /* Eliminar cualquier fondo heredado */
-  -webkit-text-fill-color: initial !important; /* Evitar estilos que afecten al relleno */
-  visibility: visible !important; /* Asegurar que sea visible */
+  color: var(--accent-color) !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  visibility: visible !important;
 }
-
 
 @keyframes fadeIn {
   from {

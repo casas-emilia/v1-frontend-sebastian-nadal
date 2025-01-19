@@ -18,7 +18,6 @@ const route = useRoute();
 const router = useRouter();
 const baseURL = "https://v1-backend-sebastian-nadal-production.up.railway.app/empresas/1";
 
-// Computed properties para separar imágenes normales y planos
 const regularImages = computed(() => 
   prefabricada.value?.imagenes_prefabricadas?.filter(img => !img.plano) || []
 );
@@ -38,15 +37,12 @@ const currentPlanoImage = computed(() =>
   hasPlanoImages.value ? planoImages.value[currentPlanoIndex.value].image : null
 );
 
-// Función para manejar errores de carga de imágenes
 const handleImageError = (event) => {
   event.target.src = '/img/placeholder.png';
 };
 
-// Add this new ref for managing accordion state
 const openAccordions = ref(new Set());
 
-// Add these new functions for accordion management
 const toggleAccordion = (id) => {
   if (openAccordions.value.has(id)) {
     openAccordions.value.delete(id);
@@ -76,36 +72,25 @@ onMounted(async () => {
   }
 });
 
-// Funciones de navegación para imágenes regulares
-const navigateRegularCarousel = (direction) => {
-  if (!hasRegularImages.value) return;
+const navigateCarousel = (direction, isPlano = false) => {
+  const images = isPlano ? planoImages.value : regularImages.value;
+  const currentIndex = isPlano ? currentPlanoIndex : currentImageIndex;
   
-  const length = regularImages.value.length;
+  if (images.length === 0) return;
+  
+  const length = images.length;
   if (direction === 'next') {
-    currentImageIndex.value = (currentImageIndex.value + 1) % length;
+    currentIndex.value = (currentIndex.value + 1) % length;
   } else {
-    currentImageIndex.value = (currentImageIndex.value - 1 + length) % length;
+    currentIndex.value = (currentIndex.value - 1 + length) % length;
   }
 };
 
-// Funciones de navegación para planos
-const navigatePlanoCarousel = (direction) => {
-  if (!hasPlanoImages.value) return;
-  
-  const length = planoImages.value.length;
-  if (direction === 'next') {
-    currentPlanoIndex.value = (currentPlanoIndex.value + 1) % length;
-  } else {
-    currentPlanoIndex.value = (currentPlanoIndex.value - 1 + length) % length;
-  }
-};
+const prevImage = () => navigateCarousel('prev');
+const nextImage = () => navigateCarousel('next');
+const prevPlano = () => navigateCarousel('prev', true);
+const nextPlano = () => navigateCarousel('next', true);
 
-const prevImage = () => navigateRegularCarousel('prev');
-const nextImage = () => navigateRegularCarousel('next');
-const prevPlano = () => navigatePlanoCarousel('prev');
-const nextPlano = () => navigatePlanoCarousel('next');
-
-// Mejorado el manejo táctil para ambos carruseles
 const handleTouchStart = (event) => {
   touchStartX.value = event.touches[0].clientX;
 };
@@ -116,17 +101,9 @@ const handleTouchEnd = (event, isPlano = false) => {
   
   if (Math.abs(swipeDistance) > 50) {
     if (isPlano) {
-      if (swipeDistance > 0) {
-        prevPlano();
-      } else {
-        nextPlano();
-      }
+      swipeDistance > 0 ? prevPlano() : nextPlano();
     } else {
-      if (swipeDistance > 0) {
-        prevImage();
-      } else {
-        nextImage();
-      }
+      swipeDistance > 0 ? prevImage() : nextImage();
     }
   }
 };
@@ -151,11 +128,11 @@ const closeLightbox = () => {
 };
 
 const lightboxNext = () => {
-  if (isPlanoLightbox.value) {
-    nextPlano();
-  } else {
-    nextImage();
-  }
+  isPlanoLightbox.value ? nextPlano() : nextImage();
+};
+
+const lightboxPrev = () => {
+  isPlanoLightbox.value ? prevPlano() : prevImage();
 };
 
 const getFeatureIcon = (clave) => {
@@ -190,58 +167,51 @@ const getFeatureIcon = (clave) => {
 const goBack = () => {
     router.go(-1);
 };
-
 </script>
 
 <template>
   <div class="prefabricada-details">
-      <!-- Header -->
-      <header class="detail-header">
-            <div class="container">
-                <nav class="breadcrumb-nav">
-                    <button class="back-button" @click="goBack">
-                        <span class="back-icon">←</span>
-                        <span>Volver</span>
-                    </button>
-                </nav>
-            </div>
-      </header>
+    <header class="detail-header">
+      <div class="container">
+        <nav class="breadcrumb-nav">
+          <button class="back-button" @click="goBack">
+            <span class="back-icon">←</span>
+            <span>Volver</span>
+          </button>
+        </nav>
+      </div>
+    </header>
 
-    <!-- Loading State -->
     <div v-if="loading" class="text-center py-5">
-      <i class="fas fa-circle-notch fa-spin fa-3x text-primary"></i>
+      <i class="fas fa-circle-notch fa-spin fa-3x"></i>
       <p class="mt-3">Cargando detalles...</p>
     </div>
 
-    <!-- Error State -->
     <div v-else-if="error" class="alert alert-danger m-4">
       <i class="fas fa-exclamation-triangle me-2"></i>
       {{ error }}
     </div>
     
-
-    <!-- Content -->
     <div v-else-if="prefabricada" class="animate__animated animate__fadeIn">
-      <!-- Hero Section -->
-      <section class="hero-section py-5 bg-light">
+      <section class="hero-section py-5">
         <div class="container">
           <div class="row align-items-center">
             <div class="col-lg-6">
-              <h1 class="display-4 fw-bold text-info mb-3">
+              <h1 class="display-4 fw-bold mb-3">
                 {{ prefabricada.nombre_prefabricada }}
               </h1>
               <p class="lead mb-4 animate__animated animate__fadeInLeft animate__delay-1s">
                 {{ prefabricada.eslogan }}
               </p>
               <div class="d-flex align-items-center mb-4">
-                <i class="fas fa-ruler-combined fa-2x text-info me-3"></i>
+                <i class="fas fa-ruler-combined fa-2x me-3"></i>
                 <div>
                   <h5 class="mb-0">Espacio</h5>
                   <p class="mb-0">{{ prefabricada.m2 }} m2</p>
                 </div>
               </div>
               <div class="d-flex align-items-center mb-4">
-                <i class="fas fa-shield-alt fa-2x text-info me-3"></i>
+                <i class="fas fa-shield-alt fa-2x me-3"></i>
                 <div>
                   <h5 class="mb-0">Garantía</h5>
                   <p class="mb-0">{{ prefabricada.garantia }}</p>
@@ -249,18 +219,16 @@ const goBack = () => {
               </div>
               <a v-if="prefabricada.precios?.length" 
                  href="#precios" 
-                 class="btn btn-info btn-lg">
+                 class="btn btn-primary btn-lg">
                 Ver Opciones de Precios
               </a>
             </div>
 
-            <!-- Regular Images Carousel -->
             <div v-if="hasRegularImages" class="col-lg-6">
               <div id="imageCarousel" 
                    class="carousel slide shadow-lg rounded" 
                    @touchstart="handleTouchStart"
                    @touchend="handleTouchEnd">
-                <!-- Indicators -->
                 <div class="carousel-indicators">
                   <button v-for="(_, index) in regularImages"
                           :key="index"
@@ -271,7 +239,6 @@ const goBack = () => {
                   </button>
                 </div>
 
-                <!-- Carousel Items -->
                 <div class="carousel-inner">
                   <div v-for="(imagen, index) in regularImages" 
                        :key="index"
@@ -285,7 +252,6 @@ const goBack = () => {
                   </div>
                 </div>
 
-                <!-- Navigation Buttons -->
                 <button class="carousel-control-prev" @click.prevent="prevImage">
                   <span class="carousel-control-prev-icon"></span>
                   <span class="visually-hidden">Anterior</span>
@@ -300,23 +266,20 @@ const goBack = () => {
         </div>
       </section>
 
-       <!-- Description Section with Planos Carousel -->
-       <section v-if="prefabricada.descripcion?.trim()" class="py-5 bg-white">
+      <section v-if="prefabricada.descripcion?.trim()" class="py-5 bg-light">
         <div class="container">
           <div class="row">
             <div class="col-lg-6">
-              <h2 class="mb-4 fw-bold text-info">Descripción</h2>
+              <h2 class="mb-4 fw-bold">Descripción</h2>
               <p class="text-muted">{{ prefabricada.descripcion }}</p>
             </div>
             
-            <!-- Planos Carousel -->
             <div v-if="hasPlanoImages" class="col-lg-6">
-              <h2 class="mb-4 fw-bold text-info">Planos</h2>
+              <h2 class="mb-4 fw-bold">Planos</h2>
               <div id="planosCarousel" 
                    class="carousel slide" 
                    @touchstart="handleTouchStart"
                    @touchend="(e) => handleTouchEnd(e, true)">
-                <!-- Indicators -->
                 <div class="carousel-indicators">
                   <button v-for="(_, index) in planoImages"
                           :key="index"
@@ -327,7 +290,6 @@ const goBack = () => {
                   </button>
                 </div>
 
-                <!-- Carousel Items -->
                 <div class="carousel-inner">
                   <div v-for="(plano, index) in planoImages" 
                        :key="index"
@@ -341,7 +303,6 @@ const goBack = () => {
                   </div>
                 </div>
 
-                <!-- Navigation Buttons -->
                 <button class="carousel-control-prev" @click.prevent="prevPlano">
                   <span class="carousel-control-prev-icon"></span>
                   <span class="visually-hidden">Anterior</span>
@@ -356,10 +317,9 @@ const goBack = () => {
         </div>
       </section>
 
-      <!-- Features Section -->
-      <section v-if="prefabricada.caracteristicas?.length" class="features-section py-5 bg-light">
+      <section v-if="prefabricada.caracteristicas?.length" class="features-section py-5">
         <div class="container">
-          <h2 class="text-center mb-5 fw-bold text-info">Características Destacadas</h2>
+          <h2 class="text-center mb-5 fw-bold">Características Destacadas</h2>
           <div class="row row-cols-2 row-cols-md-3 g-4">
             <div v-for="(caracteristica, index) in prefabricada.caracteristicas" 
                 :key="index"
@@ -367,7 +327,7 @@ const goBack = () => {
               <div class="card h-100 border-0 shadow-sm">
                 <div class="card-body">
                   <div class="feature-icon mb-3">
-                    <i :class="getFeatureIcon(caracteristica.clave)" class="fa-2x text-info"></i>
+                    <i :class="getFeatureIcon(caracteristica.clave)" class="fa-2x"></i>
                   </div>
                   <h5 class="card-title">{{ caracteristica.clave }}</h5>
                   <p class="card-text">{{ caracteristica.valor }}</p>
@@ -378,62 +338,61 @@ const goBack = () => {
         </div>
       </section>
 
-
-
-    <!-- Pricing Section -->
-  <section v-if="prefabricada.precios?.length"
-           id="precios" 
-           class="pricing-section py-5">
-    <div class="container">
-      <h2 class="text-center mb-5 fw-bold section-title">Precios Disponibles</h2>
-      <div class="pricing-cards">
-        <div v-for="precio in prefabricada.precios" 
-             :key="precio.id" 
-             class="pricing-card-wrapper mb-4">
-          <div class="card h-100 pricing-card">
-            <div class="card-header text-center py-4">
-              <h3 class="card-title mb-0">{{ precio.nombre_precio }}</h3>
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="price-container mb-4">
-                <span class="period">Desde: </span>
-                <span class="currency">$</span>
-                <span class="price">{{ Math.floor(precio.valor_prefabricada).toLocaleString() }}</span>
-              </div>
-              <p class="text-center mb-4">{{ precio.descripcion_precio }}</p>
-              <ul v-if="precio.incluyes?.length" class="list-unstyled mb-4 flex-grow-1">
-                <li v-for="incluye in precio.incluyes" 
-                    :key="incluye.id" 
-                    class="mb-3">
-                  <i class="fas fa-circle me-2 text-dark"></i>
-                  {{ incluye.nombre_incluye }}
-                </li>
-              </ul>
-            </div>
-            <div class="accordion mt-4" :id="'accordion-' + precio.id">
-              <div class="accordion-item" v-if="precio.adicionales?.length">
-                <h2 class="accordion-header" :id="'heading-' + precio.id">
-                  <button 
-                    class="accordion-button collapsed w-100 text-left"
-                    type="button" 
-                    @click="toggleAccordion(precio.id)"
-                    :aria-expanded="isAccordionOpen(precio.id)"
-                    :aria-controls="'collapse-' + precio.id">
-                    <i class="fas fa-plus-circle me-2"></i>
-                    Adicionales que puedes agregar
-                  </button>
-                </h2>
-                <div 
-                  :id="'collapse-' + precio.id" 
-                  class="accordion-collapse collapse"
-                  :class="{ 'show': isAccordionOpen(precio.id) }"
-                  :aria-labelledby="'heading-' + precio.id">
-                  <div class="accordion-body">
-                    <div v-for="adicional in precio.adicionales" 
-                         :key="adicional.id"
-                         class="adicional-item d-flex justify-content-between align-items-center">
-                      <span>{{ adicional.nombre_adicional }}</span>
-                      <span class="fw-bold text-success">${{ adicional.valor_adicional.toLocaleString() }}</span>
+      <section v-if="prefabricada.precios?.length"
+               id="precios" 
+               class="pricing-section py-5">
+        <div class="container">
+          <h2 class="text-center mb-5 fw-bold section-title">Precios Disponibles</h2>
+          <div class="pricing-cards">
+            <div v-for="precio in prefabricada.precios" 
+                 :key="precio.id" 
+                 class="pricing-card-wrapper mb-4">
+              <div class="card h-100 pricing-card">
+                <div class="card-header text-center py-4">
+                  <h3 class="card-title mb-0">{{ precio.nombre_precio }}</h3>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <div class="price-container mb-4">
+                    <span class="period">Desde: </span>
+                    <span class="currency">$</span>
+                    <span class="price">{{ Math.floor(precio.valor_prefabricada).toLocaleString() }}</span>
+                  </div>
+                  <p class="text-center mb-4 text-light">{{ precio.descripcion_precio }}</p>
+                  <ul v-if="precio.incluyes?.length" class="list-unstyled mb-4 flex-grow-1">
+                    <li v-for="incluye in precio.incluyes" 
+                        :key="incluye.id" 
+                        class="mb-3">
+                      <i class="fas fa-check me-2"></i>
+                      {{ incluye.nombre_incluye }}
+                    </li>
+                  </ul>
+                </div>
+                <div class="accordion mt-4" :id="'accordion-' + precio.id">
+                  <div class="accordion-item" v-if="precio.adicionales?.length">
+                    <h2 class="accordion-header" :id="'heading-' + precio.id">
+                      <button 
+                        class="accordion-button collapsed w-100 text-left"
+                        type="button" 
+                        @click="toggleAccordion(precio.id)"
+                        :aria-expanded="isAccordionOpen(precio.id)"
+                        :aria-controls="'collapse-' + precio.id">
+                        <i class="fas fa-plus-circle me-2"></i>
+                        Adicionales que puedes agregar
+                      </button>
+                    </h2>
+                    <div 
+                      :id="'collapse-' + precio.id" 
+                      class="accordion-collapse collapse"
+                      :class="{ 'show': isAccordionOpen(precio.id) }"
+                      :aria-labelledby="'heading-' + precio.id">
+                      <div class="accordion-body">
+                        <div v-for="adicional in precio.adicionales" 
+                             :key="adicional.id"
+                             class="adicional-item d-flex justify-content-between align-items-center">
+                          <span>{{ adicional.nombre_adicional }}</span>
+                          <span class="fw-bold text-success">${{ adicional.valor_adicional.toLocaleString() }}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -441,68 +400,74 @@ const goBack = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-      <!-- Contact Section -->
       <EjecutivosVentas />
 
-        <!-- Footer Banner Section -->
-  <section class="footer-banner">
+      <!-- <section class="footer-banner">
         <div class="banner-overlay">
           <h2 class="banner-text animate__animated animate__fadeIn animate__delay-1s">
             Casas Charlotte
           </h2>
         </div>
-    </section>
+      </section> -->
 
-
-      <!-- Lightbox -->
       <Transition name="fade">
-    <div v-if="lightboxOpen" 
-         class="lightbox"
-         @click="closeLightbox"
-         @touchstart="handleTouchStart"
-         @touchend="(e) => handleTouchEnd(e, isPlanoLightbox)">
-      <button class="close-button" @click.stop="closeLightbox">
-        <i class="fas fa-times"></i>
-      </button>
-      <button class="nav-button prev" @click.stop="lightboxPrev">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <button class="nav-button next" @click.stop="lightboxNext">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-      <img :src="isPlanoLightbox ? currentPlanoImage : currentRegularImage"
-           :alt="`Vista ampliada ${isPlanoLightbox ? 'plano' : 'imagen'}`"
-           class="lightbox-image"
-           @error="handleImageError">
-    </div>
-  </Transition>
+        <div v-if="lightboxOpen" 
+             class="lightbox"
+             @click="closeLightbox"
+             @touchstart="handleTouchStart"
+             @touchend="(e) => handleTouchEnd(e, isPlanoLightbox)">
+          <button class="close-button" @click.stop="closeLightbox">
+            <i class="fas fa-times"></i>
+          </button>
+          <button class="nav-button prev" @click.stop="lightboxPrev">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="nav-button next" @click.stop="lightboxNext">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <img :src="isPlanoLightbox ? currentPlanoImage : currentRegularImage"
+               :alt="`Vista ampliada ${isPlanoLightbox ? 'plano' : 'imagen'}`"
+               class="lightbox-image"
+               @error="handleImageError">
+        </div>
+      </Transition>
     </div>
   </div>
-
 </template>
 
 <style scoped>
+:root {
+  --primary-color: #f7b500;
+  --secondary-color: #1e1f21;
+  --accent-color: #ff6b35;
+  --text-color: #ffffff;
+  --light-bg: #f8f9fa;
+  --dark-bg: #2c2d30;
+}
+
 .prefabricada-details {
   font-family: 'Arial', sans-serif;
+  color: var(--secondary-color);
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: var(--text-color);
 }
 
 .pricing-section {
-  background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--dark-bg) 100%);
+  color: var(--text-color);
 }
 
 .feature-icon {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: rgba(0, 123, 255, 0.1);
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -510,6 +475,9 @@ const goBack = () => {
 
 .card {
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: none;
 }
 
 .card:hover {
@@ -518,14 +486,15 @@ const goBack = () => {
 }
 
 .btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--secondary-color);
   transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
   transform: translateY(-3px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -554,7 +523,7 @@ const goBack = () => {
   position: absolute;
   background: none;
   border: none;
-  color: white;
+  color: var(--text-color);
   font-size: 2rem;
   cursor: pointer;
   transition: color 0.3s ease;
@@ -564,7 +533,7 @@ const goBack = () => {
 
 .close-button:hover,
 .nav-button:hover {
-  color: #007bff;
+  color: var(--primary-color);
 }
 
 .close-button {
@@ -593,7 +562,7 @@ const goBack = () => {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #dee2e6;
+  background-color: var(--primary-color);
   opacity: 0.5;
   transition: all 0.3s ease;
   margin: 0 5px;
@@ -601,12 +570,11 @@ const goBack = () => {
 }
 
 .carousel-indicators button.active {
-  background-color: #007bff;
+  background-color: var(--accent-color);
   opacity: 1;
   transform: scale(1.2);
 }
 
-/* Add styles for planos carousel */
 #planosCarousel {
   background: white;
   border-radius: 8px;
@@ -623,7 +591,6 @@ const goBack = () => {
   background-color: white;
 }
 
-/* Transiciones */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -634,18 +601,14 @@ const goBack = () => {
   opacity: 0;
 }
 
-/* seccion de precios */
-
-/* Updated styles for pricing section */
 .pricing-section {
-  background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
   padding: 4rem 0;
 }
 
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--primary-color);
   margin-bottom: 2rem;
 }
 
@@ -661,8 +624,8 @@ const goBack = () => {
 }
 
 .pricing-card {
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -675,13 +638,13 @@ const goBack = () => {
 }
 
 .pricing-card .card-header {
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1.5rem;
 }
 
 .pricing-card .card-title {
-  color: #333;
+  color: var(--primary-color);
   font-size: 1.5rem;
   font-weight: 600;
 }
@@ -692,7 +655,7 @@ const goBack = () => {
 
 .price-container {
   text-align: center;
-  color: #097b7a;
+  color: var(--primary-color);
 }
 
 .currency {
@@ -710,23 +673,22 @@ const goBack = () => {
 
 .period {
   font-size: 1rem;
-  color: #666;
+  color: var(--text-color);
 }
 
 .pricing-card ul li {
-  color: #555;
+  color: var(--text-color);
   font-size: 1rem;
 }
 
-/* Accordion styles */
 .accordion-item {
   border: none;
   margin-bottom: 0.5rem;
 }
 
 .accordion-button {
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-color);
   font-weight: 600;
   padding: 1rem 1.25rem;
   border-radius: 0.5rem;
@@ -734,14 +696,14 @@ const goBack = () => {
 }
 
 .accordion-button:not(.collapsed) {
-  background-color: #e7f1ff;
-  color: #0c63e4;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   box-shadow: none;
 }
 
 .accordion-button:focus {
   box-shadow: none;
-  border-color: rgba(0,0,0,.125);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .accordion-button::after {
@@ -750,12 +712,12 @@ const goBack = () => {
 }
 
 .accordion-button:not(.collapsed)::after {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231e1f21'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
   transform: rotate(-180deg);
 }
 
 .accordion-body {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.05);
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   padding: 1rem 1.25rem;
@@ -764,19 +726,80 @@ const goBack = () => {
 .adicional-item {
   margin-bottom: 0.5rem;
   padding: 0.5rem;
-  background-color: #f8f9fa;
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 0.25rem;
   transition: background-color 0.3s ease;
 }
 
 .adicional-item:hover {
-  background-color: #e9ecef;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .adicional-item .fw-bold {
   font-size: 0.9rem;
 }
 
+.footer-banner {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  background-image: url('/img/casas_charlotte_3.jpg');
+  background-size: cover;
+  background-position: center;
+  margin-top: 4rem;
+}
+
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-text {
+  color: var(--text-color);
+  font-size: 3.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.detail-header {
+  background: var(--secondary-color);
+  padding: 1.5rem 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--primary-color);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  color: var(--accent-color);
+  transform: translateX(-4px);
+}
+
+.back-icon {
+  font-size: 1.2rem;
+}
 
 @media (max-width: 991px) {
   .pricing-card-wrapper {
@@ -819,39 +842,7 @@ const goBack = () => {
   .price {
     font-size: 2.5rem;
   }
-}
 
-/* footer banner final */
-.footer-banner {
-  position: relative;
-  width: 100%;
-  height: 300px;
-  background-image: url('/img/casas_charlotte_3.jpg'); /* Replace with your image path */
-  background-size: cover;
-  background-position: center;
-  margin-top: 4rem;
-}
-
-.banner-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.banner-text {
-  color: white;
-  font-size: 3.5rem;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-@media (max-width: 768px) {
   .footer-banner {
     height: 200px;
   }
@@ -859,39 +850,5 @@ const goBack = () => {
   .banner-text {
     font-size: 2.5rem;
   }
-}
-
-/* Header Styles */
-.detail-header {
-    background: white;
-    padding: 1.5rem 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-.breadcrumb-nav {
-    display: flex;
-    align-items: center;
-}
-
-.back-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    background: transparent;
-    color: #4a5568;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.back-button:hover {
-    color: #2d3748;
-    transform: translateX(-4px);
-}
-
-.back-icon {
-    font-size: 1.2rem;
 }
 </style>

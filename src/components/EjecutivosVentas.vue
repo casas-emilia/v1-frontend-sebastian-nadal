@@ -141,27 +141,35 @@ onMounted(fetchData);
   </section>
 </template>
 
-
-
 <style scoped>
+:root {
+  --primary-color: #f7b500;
+  --secondary-color: #1e1f21;
+  --accent-color: #ff6b35;
+  --text-color: #333333;
+  --light-bg: #f8f9fa;
+  --dark-bg: #2c2d30;
+}
+
 .bg-pattern {
-  background: linear-gradient(90deg, #ffffff, #f9ffff);
+  background: linear-gradient(135deg, var(--secondary-color), var(--dark-bg));
+  color: var(--light-bg);
 }
 
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #20212b;
+  color: var(--primary-color);
   margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .highlight {
-  color: #f7b500;
+  color: var(--accent-color);
 }
 
 .lead {
-  color: #20212b;
+  color: var(--light-bg);
 }
 
 .loading-spinner {
@@ -173,8 +181,8 @@ onMounted(fetchData);
 }
 
 .spinner {
-  border: 4px solid rgba(35, 204, 200, 0.3);
-  border-left-color: #23ccc8;
+  border: 4px solid rgba(247, 181, 0, 0.3);
+  border-left-color: var(--primary-color);
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -187,20 +195,21 @@ onMounted(fetchData);
 }
 
 .usuario-card {
-  background: linear-gradient(135deg, #ffffff, #f0f8ff);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(9, 123, 122, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: transform 0.3s, box-shadow 0.3s;
   height: 100%;
+  backdrop-filter: blur(10px);
 }
 
 .usuario-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(9, 123, 122, 0.2);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
 .usuario-image-container {
@@ -209,8 +218,8 @@ onMounted(fetchData);
   border-radius: 50%;
   overflow: hidden;
   margin-bottom: 1rem;
-  border: 3px solid #23ccc8;
-  box-shadow: 0 5px 15px rgba(9, 123, 122, 0.2);
+  border: 3px solid var(--primary-color);
+  box-shadow: 0 5px 15px rgba(247, 181, 0, 0.2);
 }
 
 .usuario-image {
@@ -226,12 +235,12 @@ onMounted(fetchData);
 .usuario-info h3 {
   margin: 0 0 0.5rem;
   font-size: 1.4rem;
-  color: #097b7a;
+  color: var(--primary-color);
 }
 
 .usuario-info p {
   margin: 0.2rem 0;
-  color: #333;
+  color: var(--light-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -239,14 +248,14 @@ onMounted(fetchData);
 
 .usuario-info p i {
   margin-right: 0.5rem;
-  color: #23ccc8;
+  color: var(--primary-color);
 }
 
 .whatsapp-button {
   display: inline-block;
   margin-top: 1rem;
   padding: 0.7rem 1.2rem;
-  background-color: #25d366;
+  background-color: #25D366;
   color: #fff;
   border-radius: 30px;
   text-decoration: none;
@@ -270,24 +279,28 @@ onMounted(fetchData);
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 2rem;
 }
 
 .carousel-controls button {
-  font-size: 1.2rem;
+  font-size: 1rem;
   padding: 0.5rem 1.5rem;
   border: none;
   border-radius: 5px;
-  background-color: #097b7a;
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   transition: background-color 0.3s, transform 0.3s;
+  margin: 0 0.5rem;
 }
 
 .carousel-controls button:disabled {
-  background-color: #b0d4d4;
+  background-color: rgba(247, 181, 0, 0.5);
+  color: var(--secondary-color);
 }
 
 .carousel-controls button:not(:disabled):hover {
-  background-color: #075e5d;
+  background-color: var(--accent-color);
+  color: var(--light-bg);
   transform: translateY(-2px);
 }
 </style>

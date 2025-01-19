@@ -18,7 +18,6 @@ const router = useRouter();
 const getUltimasNoticias = async () => {
   try {
     const response = await axios.get('/empresas/1/noticiasEmpresa/');
-    // const response = await axios.get('https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/');
     const noticiasData = response.data.noticias || [];
 
     const noticiasOrdenadas = noticiasData
@@ -29,7 +28,6 @@ const getUltimasNoticias = async () => {
       noticiasOrdenadas.map(async (noticia) => {
         const imagenResponse = await axios.get(
           `/empresas/1/noticiasEmpresa/${noticia.id}/imagenesNoticiasEmpresa/`
-          //`https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/${noticia.id}/imagenesNoticiasEmpresa/`
         );
         const imagenes = imagenResponse.data.imagenes_noticia || [];
         return {
@@ -65,7 +63,7 @@ onMounted(getUltimasNoticias);
     <!-- Video Section -->
     <section class="video-section py-5">
       <div class="container">
-        <h2 class="section-title">Casas Charlotte</h2>
+        <h2 class="section-title">Casas Sebastián Nadal</h2>
         <div class="video-container">
           <iframe 
             src="https://www.youtube.com/embed/q5PPNZiu52w?si=a5H_wn6CNmF0XJXW"
@@ -112,7 +110,7 @@ onMounted(getUltimasNoticias);
             </div>
             <div class="card-content">
               <h3>{{ noticia.titulo_noticia }}</h3>
-              <p>{{ noticia.desarrollo_noticia }}</p>
+              <p class="text-light">{{ noticia.desarrollo_noticia }}</p>
             </div>
           </article>
         </div>
@@ -132,11 +130,20 @@ onMounted(getUltimasNoticias);
 </template>
 
 <style scoped>
+:root {
+  --primary-color: #f7b500;
+  --secondary-color: #1e1f21;
+  --accent-color: #ff6b35;
+  --text-color: #ffffff;
+  --light-bg: #f8f9fa;
+  --dark-bg: #2c2d30;
+}
+
 /* Video Section */
 .video-section {
-  background: linear-gradient(60deg, #1a1a1a 0%, #2c3e50 100%);
+  background: linear-gradient(60deg, var(--secondary-color) 0%, var(--dark-bg) 100%);
   padding: 5rem 0;
-  color: white;
+  color: var(--text-color);
 }
 
 .video-container {
@@ -158,30 +165,29 @@ onMounted(getUltimasNoticias);
 
 /* Projects Section */
 .projects-section {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d3436 100%);
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--dark-bg) 100%);
   padding: 5rem 0;
-  color: white;
+  color: var(--text-color);
 }
 
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  /* color: #0056b3; */
-  color: lightblue;
+  color: var(--primary-color);
   text-align: center;
   margin-bottom: 2rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .section-title::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: linear-gradient(90deg, #4299e1, #667eea);
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
   border-radius: 2px;
 }
 
@@ -194,7 +200,7 @@ onMounted(getUltimasNoticias);
 }
 
 .project-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -243,34 +249,39 @@ onMounted(getUltimasNoticias);
 }
 
 .read-more {
-  color: white;
+  color: var(--primary-color);
   font-weight: 600;
   font-size: 1.1rem;
   padding: 0.75rem 1.5rem;
-  border: 2px solid white;
+  border: 2px solid var(--primary-color);
   border-radius: 30px;
   transition: all 0.3s ease;
 }
 
+.read-more:hover {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+}
+
 .card-content {
   padding: 1.5rem;
-  background: white;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .card-content h3 {
-  color: #2d3748;
+  color: var(--primary-color);
   font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
 }
 
 .card-content p {
-  color: #4a5568;
+  color: var(--text-color);
   font-size: 0.95rem;
   line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  line-clamp: 1; /* Propiedad estándar */
+  line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -285,7 +296,7 @@ onMounted(getUltimasNoticias);
   width: 50px;
   height: 50px;
   border: 4px solid rgba(255, 255, 255, 0.1);
-  border-top-color: #4299e1;
+  border-top-color: var(--primary-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 1rem;
@@ -299,7 +310,7 @@ onMounted(getUltimasNoticias);
 .error-state {
   text-align: center;
   padding: 3rem 0;
-  color: #fc8181;
+  color: var(--accent-color);
 }
 
 .error-icon {
@@ -315,8 +326,8 @@ onMounted(getUltimasNoticias);
 
 .btn-view-more {
   background: transparent;
-  color: white;
-  border: 2px solid white;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
   padding: 1rem 2rem;
   font-size: 1.1rem;
   font-weight: 600;
@@ -329,8 +340,8 @@ onMounted(getUltimasNoticias);
 }
 
 .btn-view-more:hover {
-  background: white;
-  color: #2d3748;
+  background: var(--primary-color);
+  color: var(--secondary-color);
   transform: translateY(-2px);
 }
 

@@ -136,7 +136,7 @@ const progressPercentage = computed(() => {
           >
             <!-- Listones destacados y oferta -->
             <div class="ribbons">
-              <span class="ribbon ribbon-purple">Destacada</span>
+              <span class="ribbon ribbon-dark text-warning">Destacada</span>
               <span v-if="prefabricada?.oferta" class="ribbon ribbon-red">Oferta</span>
             </div>
 
@@ -147,14 +147,14 @@ const progressPercentage = computed(() => {
                 :alt="prefabricada?.nombre_prefabricada"
               />
               <div class="card-img-overlay d-flex align-items-end">
-                <span v-if="prefabricada?.m2" class="badge text-dark bg-info mb-2">
+                <span v-if="prefabricada?.m2" class="badge text-warning bg-dark mb-2">
                   {{ prefabricada.m2 }} m²
                 </span>
               </div>
             </div>
 
             <div class="card-body">
-              <h5 class="card-title text-info">
+              <h5 class="card-title text-dark">
                 {{ prefabricada?.nombre_prefabricada }}
               </h5>
               <p class="card-text">
@@ -182,7 +182,7 @@ const progressPercentage = computed(() => {
       </div>
 
       <div class="text-center mt-4">
-        <button @click="verTodasPrefabricadas" class="btn btn-light btn-lg">
+        <button @click="verTodasPrefabricadas" class="btn btn-modern btn-lg">
           Ver Catálogo Completo
         </button>
       </div>
@@ -204,18 +204,16 @@ const progressPercentage = computed(() => {
 
 <style scoped>
 .animated-gradient {
-  /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
   background: linear-gradient(
     -45deg,
-    #23ccc8, /* Color principal 1 */
-    #4de6e2, /* Color más claro */
-    #1ca39f, /* Intermedio */
-    #097b7a, /* Color principal 2 */
-    #045c5b, /* Más oscuro */
-    #11b2af  /* Saturado */
+    #f7b500, /* Amarillo dorado */
+    #20212b, /* Gris oscuro */
+    #ff5e5e, /* Rojo cálido */
+    #20212b, /* Gris oscuro */
+    #f7f7f7  /* Gris claro */
   );
   background-size: 400% 400%;
-  animation: gradient 13s ease infinite;
+  animation: gradient 10s ease infinite;
   min-height: 100vh;
 }
 
@@ -253,62 +251,85 @@ const progressPercentage = computed(() => {
   transform: scale(1.1);
 }
 
-.btn-light {
-  background-color: rgba(255, 255, 255, 0.9);
-  border: none;
-  color: #ef6e01;
+.btn-modern {
+  background-color: #f7b500; /* Amarillo dorado */
+  border: none; /* Sin borde para un diseño más limpio */
+  color: #000000; /* Negro para un mejor contraste */
   font-weight: 600;
+  font-size: 1rem; /* Tamaño más moderno */
   padding: 0.75rem 2rem;
-  transition: all 0.3s ease;
+  border-radius: 8px; /* Borde menos redondeado para mayor modernidad */
+  transition: all 0.4s ease; /* Transición más fluida */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+  letter-spacing: 0.5px; /* Espaciado entre letras */
+  cursor: pointer; /* Indica clickeable */
 }
 
-.btn-light:hover {
-  background-color: darkslategrey;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.btn-modern:hover {
+  background-color: #20212b; /* Gris oscuro */
+  color: #f7b500; /* Amarillo dorado */
+  transform: scale(1.05); /* Ligera ampliación */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+}
+
+.btn-modern:active {
+  transform: scale(0.98); /* Ligera contracción al hacer clic */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Sombra reducida */
 }
 
 .badge {
-  font-weight: 500;
-  padding: 0.5em 1em;
+  background-color: #ff5e5e; /* Rojo cálido */
+  color: white;
+  font-weight: bold;
+  font-size: 0.85rem;
+  padding: 0.4em 0.8em;
+  border-radius: 20px;
 }
 
-/* estilos etiquetas destacada y oferta */
 .ribbons {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
+  top: 10px;
+  left: 10px;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 5px;
+  z-index: 10;
 }
 
 .ribbon {
-  color: white;
+  font-size: 0.85rem;
+  padding: 0.3rem 1.2rem;
+  background-color: #00bcd4; /* Azul claro */
+  color: #ffffff; /* Blanco */
   font-weight: bold;
-  font-size: 0.9rem;
-  padding: 0.2rem 1rem;
   text-transform: uppercase;
-  clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
 }
 
+
 .ribbon-purple {
-  background-color: #6a1b9a;
+  background-color: #7b1fa2;
+}
+
+.ribbon-dark {
+  background-color: #20212b;
 }
 
 .ribbon-red {
-  background-color: #d32f2f;
+  background-color: #e53935;
 }
 
 .progress {
-  height: 5px;
-  background-color: rgba(255, 255, 255, 0.3);
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+  overflow: hidden;
 }
 
 .progress-bar {
-  background-color: #23a6d5;
-  transition: width 0.1s linear;
+  background-color: #f7b500;
+  transition: width 0.3s linear;
 }
+
 </style>

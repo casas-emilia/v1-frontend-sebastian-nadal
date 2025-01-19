@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import "animate.css";
 
 // Datos
@@ -17,7 +17,7 @@ const features = ref([
     description:
       "Utilizamos materiales sostenibles y procesos que respetan el medio ambiente.",
     icon: "fas fa-leaf",
-    bgColor: "bg-success",
+    bgColor: "bg-secondary",
     isVisible: false,
   },
   {
@@ -25,7 +25,7 @@ const features = ref([
     description:
       "Obtén una casa de calidad a un precio más accesible que la construcción tradicional.",
     icon: "fas fa-piggy-bank",
-    bgColor: "bg-warning",
+    bgColor: "bg-accent",
     isVisible: false,
   },
 ]);
@@ -36,7 +36,7 @@ const advantages = ref([
     description:
       "Reduce el tiempo de construcción comparado con métodos tradicionales.",
     icon: "fas fa-tachometer-alt",
-    bgColor: "bg-info",
+    bgColor: "bg-primary",
     isVisible: false,
   },
   {
@@ -44,7 +44,7 @@ const advantages = ref([
     description:
       "Precios más competitivos debido a la eficiencia en la producción y construcción.",
     icon: "fas fa-dollar-sign",
-    bgColor: "bg-success",
+    bgColor: "bg-secondary",
     isVisible: false,
   },
   {
@@ -52,7 +52,7 @@ const advantages = ref([
     description:
       "Menor impacto ambiental y uso más eficiente de los materiales de construcción.",
     icon: "fas fa-recycle",
-    bgColor: "bg-primary",
+    bgColor: "bg-accent",
     isVisible: false,
   },
   {
@@ -60,7 +60,7 @@ const advantages = ref([
     description:
       "Fabricación en ambientes controlados que garantizan alta calidad y precisión.",
     icon: "fas fa-tools",
-    bgColor: "bg-warning",
+    bgColor: "bg-primary",
     isVisible: false,
   },
 ]);
@@ -70,33 +70,28 @@ const advantageCards = ref([]);
 
 const observeVisibility = (cards, data) => {
   const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const index = cards.value.indexOf(entry.target);
-        if (index !== -1) {
-          data.value[index].isVisible = true;
-          entry.target.classList.add("is-visible");
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = cards.value.indexOf(entry.target);
+          if (index !== -1) {
+            data.value[index].isVisible = true;
+            entry.target.classList.add("is-visible");
+          }
         }
-      }
-    });
-  },
-  { threshold: 0.8 }  // Asegúrate de que más del 80% de la tarjeta esté visible
-);
-
-
+      });
+    },
+    { threshold: 0.8 }
+  );
 
   cards.value.forEach((card) => observer.observe(card));
 };
 
-
-
 onMounted(() => {
-  // Establecer las tarjetas como visibles inicialmente para probar si la animación funciona
-  features.value.forEach((feature, index) => {
+  features.value.forEach((feature) => {
     feature.isVisible = true;
   });
-  advantages.value.forEach((advantage, index) => {
+  advantages.value.forEach((advantage) => {
     advantage.isVisible = true;
   });
 });
@@ -105,7 +100,6 @@ onMounted(() => {
 <template>
   <section id="caracteristicas-ventajas" class="py-5 bg-pattern">
     <div class="container position-relative">
-      <!-- <h2 class="text-center mb-5 section-title"> -->
       <h2 class="text-center mb-5 section-title">
         ¿Por qué elegir nuestras casas?
       </h2>
@@ -168,9 +162,9 @@ onMounted(() => {
 
 <style>
 :root {
-  --primary-color: #23ccc8;
-  --secondary-color: #097b7a;
-  --accent-color: #f7b500;
+  --primary-color: #f7b500;
+  --secondary-color: #1e1f21;
+  --accent-color: #ff6b35;
   --text-color: #333333;
   --light-bg: #f8f9fa;
   --dark-bg: #343a40;
@@ -181,19 +175,19 @@ onMounted(() => {
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--primary-color);
   margin-bottom: 1rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .bg-pattern {
   background: linear-gradient(
-      rgba(0, 0, 0, 0.5), 
-      rgba(0, 0, 0, 0.5)
+      rgba(30, 31, 33, 0.8), 
+      rgba(30, 31, 33, 0.8)
     ), 
-    url("/img/arboles_medio_ambiente.jpg") no-repeat center center fixed;
+    url("/img/logo2_sebastian_nadal.png") no-repeat center center fixed;
   background-size: cover;
-  min-height: 100vh; /* Usa min-height para garantizar que el fondo cubra toda la pantalla */
+  min-height: 100vh;
   position: relative;
 }
 
@@ -203,31 +197,21 @@ onMounted(() => {
   border-radius: 15px;
   padding: 30px;
   transition: all 0.3s ease;
-  height: auto; /* Permite que las tarjetas tengan altura automática según el contenido */
-  max-height: 100%; /* Asegura que no se desborden */
-  box-shadow: 0 10px 20px rgba(9, 123, 122, 0.1);
-  overflow: hidden; /* Evita que el contenido desborde fuera de la tarjeta */
+  height: auto;
+  max-height: 100%;
+  box-shadow: 0 10px 20px rgba(247, 181, 0, 0.1);
+  overflow: hidden;
   position: relative;
   opacity: 0;
-  transform: translateY(50px); /* Empuja las tarjetas hacia abajo inicialmente */
+  transform: translateY(50px);
 }
 
 .feature-card.is-visible,
 .advantage-card.is-visible {
   opacity: 1;
-  transform: translateY(0); /* Mueve las tarjetas hacia su posición original */
-  transition: opacity 0.5s, transform 0.5s ease-out; /* Animación suave */
+  transform: translateY(0);
+  transition: opacity 0.5s, transform 0.5s ease-out;
 }
-
-/* Asegura que los márgenes y el padding de las tarjetas no causen desbordamiento */
-/* .content-wrapper {
-  overflow: hidden;
-} */
-
-/* .container {
-  position: relative;
-  padding: 0 15px;
-} */
 
 .feature-card::before,
 .advantage-card::before {
@@ -239,11 +223,11 @@ onMounted(() => {
   height: 200%;
   background: linear-gradient(
     to bottom right,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.2) 40%,
-    rgba(255, 255, 255, 0) 50%,
-    rgba(255, 255, 255, 0.1) 60%,
-    rgba(255, 255, 255, 0.2) 100%
+    rgba(247, 181, 0, 0.3) 0%,
+    rgba(247, 181, 0, 0.2) 40%,
+    rgba(247, 181, 0, 0) 50%,
+    rgba(247, 181, 0, 0.1) 60%,
+    rgba(247, 181, 0, 0.2) 100%
   );
   transform: rotate(30deg);
   transition: all 0.5s ease;
@@ -259,7 +243,7 @@ onMounted(() => {
 .feature-card:hover,
 .advantage-card:hover {
   transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 15px 30px rgba(9, 123, 122, 0.2);
+  box-shadow: 0 15px 30px rgba(247, 181, 0, 0.2);
 }
 
 .icon-wrapper {
@@ -270,7 +254,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
-  box-shadow: 0 8px 15px rgba(9, 123, 122, 0.2);
+  box-shadow: 0 8px 15px rgba(247, 181, 0, 0.2);
   transition: all 0.3s ease;
 }
 
@@ -311,13 +295,6 @@ onMounted(() => {
   line-height: 1.6;
 }
 
-/* Animación para las tarjetas cuando son visibles */
-.feature-card.is-visible,
-.advantage-card.is-visible {
-  animation: fadeInUp 0.8s ease-in-out forwards;
-}
-
-/* Animación personalizada para fadeInUp */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -340,20 +317,15 @@ onMounted(() => {
   }
 }
 
-/* Custom background colors */
 .bg-primary {
   background-color: var(--primary-color) !important;
 }
 
-.bg-success {
+.bg-secondary {
   background-color: var(--secondary-color) !important;
 }
 
-.bg-warning {
+.bg-accent {
   background-color: var(--accent-color) !important;
-}
-
-.bg-info {
-  background-color: var(--primary-color) !important;
 }
 </style>

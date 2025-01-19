@@ -18,7 +18,6 @@ const getActividad = async () => {
   try {
     const noticiasResponse = await axios.get(
       `/empresas/1/noticiasEmpresa/`,
-      //`https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/`,
       {
         params: {
           page: pagination.value.page,
@@ -33,7 +32,6 @@ const getActividad = async () => {
       noticias.map(async (noticia) => {
         const imagenesResponse = await axios.get(
           `/empresas/1/noticiasEmpresa/${noticia.id}/imagenesNoticiasEmpresa/`
-          //`https://v1backendcasasamilia-production.up.railway.app/empresas/1/noticiasEmpresa/${noticia.id}/imagenesNoticiasEmpresa/`
         );
 
         const imagenes = imagenesResponse.data.imagenes_noticia || [];
@@ -62,21 +60,21 @@ onMounted(getActividad);
 </script>
 
 <template>
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="hero-overlay"></div>
-    <img
-      src="/img/fondo_madera_blog.webp"
-      class="hero-image"
-      alt="Imagen de portada"
-    />
-    <div class="hero-content">
-      <h1 class="hero-title">Proyectos y actividades</h1>
-      <p class="hero-subtitle">Descubre nuestras últimas novedades e iniciativas</p>
-    </div>
-  </section>
+  <div class="activities-view">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-overlay"></div>
+      <img
+        src="/img/portada_portafolio.webp"
+        class="hero-image"
+        alt="Imagen de portada"
+      />
+      <div class="hero-content">
+        <h1 class="hero-title text-white">Proyectos y actividades</h1>
+        <p class="hero-subtitle text-light">Descubre nuestras últimas novedades e iniciativas</p>
+      </div>
+    </section>
 
-  <div class="blog-view">
     <div class="container py-5">
       <!-- Loading State -->
       <div v-if="loading" class="loading-container">
@@ -146,6 +144,21 @@ onMounted(getActividad);
 </template>
 
 <style scoped>
+:root {
+  --primary-color: #f7b500;
+  --secondary-color: #1e1f21;
+  --text-color: #ffffff;
+  --background-color: #f8f9fa;
+  --card-background: #ffffff;
+  --card-text: #2d3748;
+  --card-description: #4a5568;
+}
+
+.activities-view {
+  background-color: var(--background-color);
+  min-height: 100vh;
+}
+
 /* Hero Section */
 .hero-section {
   position: relative;
@@ -160,7 +173,7 @@ onMounted(getActividad);
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+  background: linear-gradient(rgba(30, 31, 33, 0.6), rgba(30, 31, 33, 0.8));
   z-index: 1;
 }
 
@@ -178,7 +191,7 @@ onMounted(getActividad);
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  color: white;
+  color: var(--text-color);
   z-index: 2;
   width: 90%;
   max-width: 800px;
@@ -190,6 +203,7 @@ onMounted(getActividad);
   margin-bottom: 1rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   animation: fadeInUp 1s ease-out;
+  color: var(--primary-color);
 }
 
 .hero-subtitle {
@@ -199,12 +213,7 @@ onMounted(getActividad);
   animation: fadeInUp 1s ease-out 0.2s backwards;
 }
 
-/* Main Content */
-.blog-view {
-  background-color: #f8f9fa;
-  min-height: 100vh;
-}
-
+/* Grid Container */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -212,6 +221,7 @@ onMounted(getActividad);
   padding: 1rem;
 }
 
+/* Card Styles */
 .card-wrapper {
   cursor: pointer;
   transition: transform 0.3s ease;
@@ -222,7 +232,7 @@ onMounted(getActividad);
 }
 
 .card {
-  background: white;
+  background: var(--card-background);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -266,13 +276,13 @@ onMounted(getActividad);
 .card-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2d3748;
+  color: var(--card-text);
   margin-bottom: 1rem;
   line-height: 1.3;
 }
 
 .card-description {
-  color: #4a5568;
+  color: var(--card-description);
   line-height: 1.6;
   display: -webkit-box; /* Para navegadores basados en WebKit */
   display: box; /* Estándar (aunque aún no ampliamente soportado) */
@@ -291,14 +301,14 @@ onMounted(getActividad);
 }
 
 .read-more {
-  color: #4299e1;
+  color: var(--primary-color);
   font-weight: 600;
   font-size: 0.9rem;
   transition: color 0.2s ease;
 }
 
 .card:hover .read-more {
-  color: #2b6cb0;
+  color: var(--secondary-color);
 }
 
 /* Loading State */
@@ -310,15 +320,15 @@ onMounted(getActividad);
 .loading-spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
+  border: 4px solid var(--background-color);
+  border-top: 4px solid var(--primary-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 1rem;
 }
 
 .loading-text {
-  color: #2d3748;
+  color: var(--secondary-color);
   font-size: 1.1rem;
 }
 
@@ -326,7 +336,7 @@ onMounted(getActividad);
 .error-container {
   text-align: center;
   padding: 4rem 0;
-  color: #2d3748;
+  color: var(--secondary-color);
 }
 
 .error-icon {
@@ -340,8 +350,8 @@ onMounted(getActividad);
 }
 
 .retry-button {
-  background-color: #4299e1;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   border: none;
   padding: 0.75rem 2rem;
   border-radius: 8px;
@@ -351,7 +361,8 @@ onMounted(getActividad);
 }
 
 .retry-button:hover {
-  background-color: #2b6cb0;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 /* Pagination */
@@ -365,20 +376,20 @@ onMounted(getActividad);
 }
 
 .pagination-button {
-  background-color: white;
-  border: 2px solid #e2e8f0;
+  background-color: var(--primary-color);
+  border: 2px solid var(--primary-color);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
-  color: #4a5568;
+  color: var(--secondary-color);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .pagination-button:not(:disabled):hover {
-  background-color: #4299e1;
-  border-color: #4299e1;
-  color: white;
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .pagination-button:disabled {
@@ -387,7 +398,7 @@ onMounted(getActividad);
 }
 
 .pagination-info {
-  color: #4a5568;
+  color: var(--secondary-color);
   font-weight: 500;
 }
 

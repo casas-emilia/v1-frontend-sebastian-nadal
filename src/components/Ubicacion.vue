@@ -9,7 +9,7 @@ const error = ref(null);
 const fetchUbicacion = async () => {
   try {
     const response = await axios.get('/empresas/1');
-    console.log('Respuesta del servidor:', response);
+    //console.log('Respuesta del servidor:', response);
     empresas.value = response.data.empresa || {};
     loading.value = false;
   } catch (err) {
@@ -47,12 +47,12 @@ onMounted(() => {
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3292.403868421637!2d-71.2568022!3d-29.8916354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9691b54c4fd2da83%3A0x1888324f0c8e5d30!2sCASAS%20PREFABRICADAS%20CHARLOTTE!5e1!3m2!1ses-419!2scl!4v1736632643386!5m2!1ses-419!2scl" 
               width="600" height="450" style="border:0;"  allowfullscreen="true"
               loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
+            </iframe>
           </div>
         </div>
         <div class="col-md-6 info-container">
           <div class="info-card">
-            <h3 class="mb-4" style="color: #f7b500;">
+            <h3 class="mb-4">
               Visítanos en nuestro sitio de exhibición
             </h3>
             <p v-if="empresas && empresas.ubicacion_empresa" class="info-item">
@@ -84,35 +84,33 @@ onMounted(() => {
   </section>
 </template>
 
-<style>
+<style scoped>
 :root {
-  --primary-color: #23ccc8;
-  --secondary-color: #20212b;
-  --accent-color: #ef6e01;
+  --primary-color: #f7b500;
+  --secondary-color: #1e1f21;
+  --accent-color: #ff6b35;
   --text-color: #333333;
   --light-bg: #f8f9fa;
-  --dark-bg: #343a40;
+  --dark-bg: #2c2d30;
 }
-</style>
 
-<style scoped>
 .bg-pattern {
-  background: linear-gradient(90deg, #ffffff, #f9ffff);
-  /* background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2323ccc8' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); */
+  background: linear-gradient(135deg, var(--secondary-color), var(--dark-bg));
+  color: var(--light-bg);
 }
 
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--secondary-color);
+  color: var(--primary-color);
   margin-bottom: 2rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .content-wrapper {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(9, 123, 122, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
 
@@ -123,7 +121,7 @@ onMounted(() => {
 .map-frame {
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(9, 123, 122, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .info-container {
@@ -131,16 +129,16 @@ onMounted(() => {
 }
 
 .info-card {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 5px 15px rgba(9, 123, 122, 0.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .info-item {
   margin-bottom: 15px;
   font-size: 1.1rem;
-  color: var(--text-color);
+  color: var(--light-bg);
   transition: all 0.3s ease;
 }
 
@@ -164,7 +162,7 @@ onMounted(() => {
 }
 
 .spinner {
-  border: 4px solid rgba(35, 204, 200, 0.1);
+  border: 4px solid rgba(247, 181, 0, 0.1);
   border-left-color: var(--primary-color);
   border-radius: 50%;
   width: 40px;
@@ -178,8 +176,8 @@ onMounted(() => {
 }
 
 .error-message {
-  background-color: #ffe6e6;
-  border: 1px solid #ff9999;
+  background-color: rgba(255, 107, 53, 0.2);
+  border: 1px solid var(--accent-color);
   border-radius: 5px;
   padding: 20px;
   margin-top: 20px;
@@ -197,5 +195,9 @@ onMounted(() => {
 
 .text-danger {
   color: var(--accent-color) !important;
+}
+
+h3 {
+  color: var(--primary-color);
 }
 </style>

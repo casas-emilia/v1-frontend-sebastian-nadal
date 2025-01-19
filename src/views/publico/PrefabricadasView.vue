@@ -5,9 +5,7 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 const baseURL = "https://v1-backend-sebastian-nadal-production.up.railway.app";
-// const baseURL = "https://v1backendcasasamilia-production.up.railway.app";
 
-// Estados reactivos
 const prefabricadas = ref([]);
 const categorias = ref([]);
 const estilos = ref([]);
@@ -25,7 +23,6 @@ const formatPrice = (price) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
 
-// Cargar datos iniciales
 const loadInitialData = async () => {
   try {
     loading.value = true;
@@ -55,7 +52,6 @@ const loadInitialData = async () => {
   }
 };
 
-// Cargar más prefabricadas
 const loadMore = async () => {
   if (!loadingMore.value && !loading.value) {
     try {
@@ -79,7 +75,6 @@ const loadMore = async () => {
   }
 };
 
-// Filtrar prefabricadas
 const filteredPrefabricadas = computed(() => {
   return prefabricadas.value.filter(prefab => {
     if (!prefab) return false;
@@ -98,7 +93,6 @@ const filteredPrefabricadas = computed(() => {
   });
 });
 
-// Navegación
 const navigateToDetailPrefabricada = (id) => {
   if (id) {
     router.push({ name: "prefabricada-detalle", params: { id } });
@@ -110,8 +104,7 @@ onMounted(loadInitialData);
 
 <template>
   <div class="prefabricadas-view">
-     <!-- Header con formas geométricas -->
-     <header class="header">
+    <header class="header">
       <div class="geometric-shapes">
         <div class="shape shape-1"></div>
         <div class="shape shape-2"></div>
@@ -121,7 +114,7 @@ onMounted(loadInitialData);
       <div class="container position-relative">
         <div class="row align-items-center">
           <div class="col-md-6">
-            <h1 class="display-4 fw-bold text-white animate__animated animate__fadeInLeft">Casas Charlotte</h1>
+            <h1 class="display-4 fw-bold text-white animate__animated animate__fadeInLeft">Casas Sebastián Nadal</h1>
             <p class="lead text-white animate__animated animate__fadeInLeft animate__delay-1s">
               La calidad y la belleza no tienen por qué esperar años.
             </p>
@@ -136,12 +129,11 @@ onMounted(loadInitialData);
     </header>
 
     <div class="container-fluid bg-gradient py-5">
-      <!-- Filtros -->
       <div class="container mb-4">
         <div class="row g-3">
           <div class="col-md-6 col-lg-3">
             <div class="input-group">
-              <span class="input-group-text bg-info text-white">
+              <span class="input-group-text">
                 <i class="fas fa-search"></i>
               </span>
               <input
@@ -191,10 +183,9 @@ onMounted(loadInitialData);
         </div>
       </div>
 
-      <!-- Estados de carga y error -->
       <div v-if="loading" class="text-center py-5">
-        <i class="fas fa-circle-notch fa-spin fa-3x text-primary"></i>
-        <p class="mt-3 text-dark">Cargando casas prefabricadas...</p>
+        <i class="fas fa-circle-notch fa-spin fa-3x"></i>
+        <p class="mt-3">Cargando casas prefabricadas...</p>
       </div>
 
       <div v-else-if="error" class="alert alert-danger mx-3">
@@ -202,12 +193,11 @@ onMounted(loadInitialData);
       </div>
 
       <div v-else-if="filteredPrefabricadas.length === 0" 
-           class="text-center text-dark py-5">
+           class="text-center py-5">
         <i class="fas fa-search fa-3x mb-3"></i>
         <p>No se encontraron Prefabricadas con los filtros aplicados.</p>
       </div>
 
-      <!-- Lista de prefabricadas -->
       <div v-else class="row g-4 mx-3">
         <div
           v-for="prefabricada in filteredPrefabricadas"
@@ -218,12 +208,10 @@ onMounted(loadInitialData);
             class="card h-100 shadow-lg hover-card"
             @click="navigateToDetailPrefabricada(prefabricada?.id)"
           >
-
-          <!-- Listones destacados y oferta -->
-          <div class="ribbons">
-            <span v-if="prefabricada?.destacada" class="ribbon ribbon-purple">Destacada</span>
-            <span v-if="prefabricada?.oferta" class="ribbon ribbon-red">Oferta</span>
-          </div>
+            <div class="ribbons">
+              <span v-if="prefabricada?.destacada" class="ribbon ribbon-dark text-warning">Destacada</span>
+              <span v-if="prefabricada?.oferta" class="ribbon ribbon-red">Oferta</span>
+            </div>
 
             <div class="position-relative">
               <img
@@ -232,14 +220,14 @@ onMounted(loadInitialData);
                 :alt="prefabricada?.nombre_prefabricada || 'Casa prefabricada'"
               />
               <div class="card-img-overlay d-flex align-items-end">
-                <span v-if="prefabricada?.m2" class="badge text-dark bg-info mb-2">
+                <span v-if="prefabricada?.m2" class="badge mb-2">
                   {{ prefabricada.m2 }} m²
                 </span>
               </div>
             </div>
             
             <div class="card-body">
-              <h5 class="card-title text-info">
+              <h5 class="card-title">
                 {{ prefabricada?.nombre_prefabricada || 'Sin nombre' }}
               </h5>
               <p v-if="prefabricada?.garantia" class="card-text">
@@ -248,7 +236,7 @@ onMounted(loadInitialData);
               </p>
               
               <template v-if="prefabricada?.precios?.length">
-                <h6 class="mt-4 mb-3 text-secondary">
+                <h6 class="mt-4 mb-3">
                   <i class="fas fa-tag me-2"></i>Precios:
                 </h6>
                 <ul class="list-group list-group-flush">
@@ -258,7 +246,7 @@ onMounted(loadInitialData);
                     class="list-group-item d-flex justify-content-between align-items-center"
                   >
                     {{ precio?.nombre_precio || 'Precio sin nombre' }}
-                    <span class="badge bg-secondary rounded-pill">
+                    <span class="badge rounded-pill">
                       ${{ formatPrice(precio?.valor_prefabricada || 0) }}
                     </span>
                   </li>
@@ -269,7 +257,6 @@ onMounted(loadInitialData);
         </div>
       </div>
 
-      <!-- Botón "Ver más" -->
       <div 
         v-if="!loading && filteredPrefabricadas.length > 0" 
         class="text-center mt-4"
@@ -277,23 +264,30 @@ onMounted(loadInitialData);
         <button
           v-if="!loadingMore"
           @click="loadMore"
-          class="btn btn-outline-dark"
+          class="btn btn-outline-primary"
         >
           Ver más
         </button>
-        <div v-else class="text-dark">
+        <div v-else>
           <i class="fas fa-spinner fa-spin"></i> Cargando más...
         </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <style scoped>
+:root {
+  --primary-color: #f7b500;
+  --secondary-color: #1e1f21;
+  --accent-color: #ff6b35;
+  --text-color: #ffffff;
+  --light-bg: #f8f9fa;
+  --dark-bg: #2c2d30;
+}
 
 .header {
-  background: linear-gradient(135deg, #23ccc8 0%, #097b7a 100%);
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
   padding: 5rem 0;
   position: relative;
   overflow: hidden;
@@ -392,8 +386,9 @@ onMounted(loadInitialData);
 }
 
 .bg-gradient {
-  background: linear-gradient(135deg, #0f2952 0%, #1a3a6e 100%);
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--dark-bg) 100%);
   min-height: 100vh;
+  color: var(--text-color);
 }
 
 .hover-card {
@@ -419,16 +414,19 @@ onMounted(loadInitialData);
 .input-group-text {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 .form-control, .form-select {
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--primary-color);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
 }
 
 .form-control:focus, .form-select:focus {
-  border-color: #fff;
-  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 0.25rem rgba(255, 107, 53, 0.25);
 }
 
 @keyframes fadeInDown {
@@ -442,7 +440,6 @@ onMounted(loadInitialData);
   }
 }
 
-/* esilos etiquetas destacada y oferta */
 .ribbons {
   position: absolute;
   top: 0;
@@ -463,11 +460,49 @@ onMounted(loadInitialData);
 }
 
 .ribbon-purple {
-  background-color: #6a1b9a;
+  background-color: var(--accent-color);
+}
+
+.ribbon-dark {
+  background-color: var(--dark-bg);
 }
 
 .ribbon-red {
   background-color: #d32f2f;
 }
 
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: none;
+}
+
+.card-title {
+  color: var(--primary-color);
+}
+
+.badge {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 3rem 0;
+  }
+
+  .shape {
+    display: none;
+  }
+}
 </style>
