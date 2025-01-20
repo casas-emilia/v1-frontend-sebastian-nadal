@@ -62,6 +62,12 @@ const resetProgress = () => {
     nextTick(startProgress)
 }
 
+const handleImageClick = (link) => {
+  if (link && link !== 'null' && link !== 'undefined' && link.trim() !== '') {
+    window.location.href = link;
+  }
+}
+
 onMounted(() => {
     fetchImages()
 })
@@ -111,7 +117,11 @@ watch(images, () => {
                     v-for="(img, index) in images" 
                     :key="img.id" 
                     class="carousel-item"
-                    :class="{ active: index === 0 }"
+                    :class="{ 
+                        active: index === 0, 
+                        'cursor-pointer': img.link && img.link !== 'null' && img.link !== 'undefined' && img.link.trim() !== '' 
+                    }"
+                    @click="handleImageClick(img.link)"
                 >
                     <img 
                         :src="img.image"
@@ -202,6 +212,10 @@ watch(images, () => {
     height: 150px;
     background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
     pointer-events: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
 </style>
 
