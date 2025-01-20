@@ -187,7 +187,7 @@ onMounted(getUltimasNoticias);
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  /* background: linear-gradient(90deg, var(--primary-color), var(--accent-color)); */
   border-radius: 2px;
 }
 
